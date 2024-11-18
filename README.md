@@ -1,6 +1,6 @@
 # Rolling SoftRes
 
-This script was created to give World of Warcraft raid leaders an easy way to maintain a rolling soft reserve loot system.  The rolling soft reserve system works by adding bonus points to your rolls for each raid you attend and place a soft-reserve on the same item.  This script currently requires a MySQL database with a separate table per raid/group (although I may release an update to just use a CSV file if requested).
+This script was created to give World of Warcraft raid leaders an easy way to maintain a rolling soft reserve loot system.  The rolling soft reserve system works by adding bonus points to your rolls for each raid you attend and place a soft-reserve on the same item.  This script currently requires a MySQL database with a separate table per raid/group.
 
 Your first raid, you will have 0 bonus points.
 Your second raid, you will have 5 bonus points.
@@ -29,3 +29,8 @@ This is assuming you have already setup a SQL server.
 - If you are already at 0 points, you will not have points deducted for absence.
 
 ![image](https://github.com/user-attachments/assets/2d66f2b0-013b-4e4d-8c7c-a5387a256300)
+
+### Planned Enhancements
+
+- [ ] Create web UI for admin
+- [ ] Create public standing board
