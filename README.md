@@ -32,5 +32,5 @@ This is assuming you have already setup a SQL server.
 
 ### Planned Enhancements
 
-- [ ] Create web UI for admin
+- [ ] Create web UI to allow uploading CSV from softres.it instead of having to manually modify the file
 - [ ] Create public standing board
