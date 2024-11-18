@@ -10,11 +10,12 @@ bold="$(tput bold)"
 reset="$(tput sgr0)"
 blue="$(tput setaf 4)"
 
-DB_HOST="[YOUR SQL SERVER IP]"
-DATABASE="[NAME OF SQL DATABASE]"
-DB_PORT="[YOUR SQL SERVER PORT]"
-DB_USER="[YOUR SQL SERVER USERNAME]"
-DB_PASS="[YOUR SQL SERVER PASSWORD"
+source credentials.conf
+
+if ! [[ $? = 0 ]]; then
+	echo "${bold}${red}Error!${yellow} - Unable to connect to SQL server.  Exiting!${reset}"
+	exit 1
+fi
 
 echo -e "${bold}${yellow}Available Tables: ${reset}"
 
@@ -44,7 +45,7 @@ while ! [[ $YN = @(Y|y|N|n) ]]; do
 done
 
 
-CSV=$( cat softRes.csv | tail -n+2 | sed -e "s/'//g" -e 's/ //g' )
+CSV=$( cat softres.csv | tail -n+2 | sed -e "s/'//g" -e 's/ //g' )
 
 DATE=$( date +%Y-%m-%d )
 
@@ -56,7 +57,7 @@ echo "| |\ \ (_) | | | | | | | (_| | /\__/ / (_) | | | |_| |\ \  __/\__ \\"
 echo "|_| \_\___/|_|_|_|_| |_|\__, | \____/ \___/|_|  \__\_| \_\___||___/"
 echo "                         __/ |                ${blue}By Bearijuana${red}"
 echo "                        |___/${reset}"
-echo -e "\n${bold}${yellow}Date: ${cyan}$DATE${reset}\n"
+echo -e "\n${bold}${yellow}Date: ${cyan}$DATE${reset}"
 
 INCREMENT="$1"
 
@@ -103,11 +104,11 @@ for RAIDER in $RAIDER_LIST; do
 		OLD_BONUS_QUERY="SELECT Bonus FROM $DB_TABLE WHERE Username = '$WOW_USERNAME' LIMIT 1;"
 	        OLD_BONUS=$( mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -ss <<< "$OLD_BONUS_QUERY" 2> /dev/null )
 		((NEW_BONUS=OLD_BONUS-$INCREMENT))
-
 		if [[ $OLD_BONUS > 0 ]]; then
-			ABSENT_RAIDER+=("\t${bold}${cyan} $RAIDER ${yellow}- Decreasing bonus ${green} $OLD_BONUS ${yellow}->${red} $NEW_BONUS ${reset}")
+                        ABSENT_RAIDER+=("\t${bold}${cyan} $RAIDER ${yellow}- Decreasing bonus ${green} $OLD_BONUS ${yellow}->${red} $NEW_BONUS ${reset}")
+		else
+			ABSENT_RAIDER+=("\t${bold}${cyan} $RAIDER ${yellow} - Was absent but does not have any points to be deducted..")
 		fi
-
 	fi
 done
 
@@ -217,9 +218,12 @@ else
 	                OLD_BONUS=$( mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -ss <<< "$OLD_BONUS_QUERY" 2> /dev/null )
 			((NEW_BONUS=OLD_BONUS-$INCREMENT))
 
-			echo -en "\t${bold}${cyan}$WOW_USERNAME${yellow} - Decreasing bonus for absence ${green}$OLD_BONUS ${yellow}-> ${red}$NEW_BONUS.. ${reset}"
-	                mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -ss -e "UPDATE $DB_TABLE SET Bonus = '$NEW_BONUS' WHERE Username = '$WOW_USERNAME'" 2> /dev/null
-
+			if [[ $OLD_BONUS > 0 ]]; then
+				echo -en "\t${bold}${cyan}$WOW_USERNAME${yellow} - Decreasing bonus for absence ${green}$OLD_BONUS ${yellow}-> ${red}$NEW_BONUS.. ${reset}"
+		                mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -ss -e "UPDATE $DB_TABLE SET Bonus = '$NEW_BONUS' WHERE Username = '$WOW_USERNAME'" 2> /dev/null
+			else
+				echo -en "\t${bold}${cyan}$WOW_USERNAME${yellow} - Does not have any points and will not have points deducted.. "
+			fi
 	                if [[ $? = 0 ]]; then
 	                        echo "${bold}${green}OK${reset}"
 	                else
