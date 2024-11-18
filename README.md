@@ -5,6 +5,7 @@ This script was created to give World of Warcraft raid leaders an easy way to ma
 Your first raid, you will have 0 bonus points.
 Your second raid, you will have 5 bonus points.
 Your third raid, you will have 10 bonus points.
+So on, and so forth.
 
 (You can change the number of points incremented for each run)
 
