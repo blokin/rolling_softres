@@ -16,7 +16,7 @@ This is assuming you have already setup a SQL server.
 2. Fill out the MySQL credentials at the top of the script.
 3. Ensure that the script is executable (chmod +x softres.sh).
 4. Export your soft-reserve list from https://softres.it ![image](https://github.com/user-attachments/assets/7c7c38e1-8e52-4ee2-b583-d43fffeb4684)
-5. Download the CSV file to the same directory as this script, and name it "softres.csv".
+5. Download the CSV file to the same directory as this script, and name it "softres.csv".  Please note, this file will be deleted when the script finishes running to prevent it from accidentally being used again.
 6. Run the script (./softres.sh).
 7. Select a database table from the list when prompted, and confirm your choice.  You should have created a separate table for each raid/group that you are tracking.
 8. You will now be prompted to select the number of bonus points that should be added for returning raiders.  Enter your choice, and press enter.
