@@ -13,7 +13,7 @@ Your third raid, you will have 10 bonus points.
 This is assuming you have already setup a SQL server.
 
 1. Ensure MySQL is installed on the machine that will be running the script.
-2. Fill out the MySQL credentials at the top of the script.
+2. Fill out the MySQL credentials in credentials.conf.
 3. Ensure that the script is executable (chmod +x softres.sh).
 4. Export your soft-reserve list from https://softres.it ![image](https://github.com/user-attachments/assets/7c7c38e1-8e52-4ee2-b583-d43fffeb4684)
 5. Download the CSV file to the same directory as this script, and name it "softres.csv".  Please note, this file will be deleted when the script finishes running to prevent it from accidentally being used again.
