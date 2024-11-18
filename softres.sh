@@ -77,7 +77,7 @@ echo -e "\n"
 CURRENT_STANDINGS=$( mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -e "SELECT Username,ItemName,ItemID,Bonus,LastAttended FROM $DB_TABLE;" 2> /dev/null )
 
 if [[ $CURRENT_STANDINGS ]]; then
-	echo -e "${bold}${yellow}CURRENT STANDINGS:\n\n${reset}"
+	echo -e "${bold}${yellow}CURRENT STANDINGS:\n${reset}"
 	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -e "SELECT Username,ItemName,ItemID,Bonus,LastAttended FROM $DB_TABLE;" 2> /dev/null
 fi
 
