@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /bin/bash -x
 
 TERM=xterm-256color
 red="$(tput setaf 1)"
@@ -12,38 +12,53 @@ blue="$(tput setaf 4)"
 
 source credentials.conf
 
+if [[ $1 ]]; then
+	DB_SELECT=$1
+	INTERACTIVE=0
+fi
+
+if [[ $2 ]]; then
+	INCREMENT=$2
+fi
+
 if ! [[ $? = 0 ]]; then
 	echo "${bold}${red}Error!${yellow} - Unable to connect to SQL server.  Exiting!${reset}"
 	exit 1
 fi
 
-echo -e "${bold}${yellow}Available Tables: ${reset}"
+if ! [[ $DB_SELECT ]]; then
+	echo -e "${bold}${yellow}Available Tables: ${reset}"
+fi
 
 for TABLE in $( mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -ss -e "show tables;" 2> /dev/null ); do
 	TABLES+=("$TABLE")
 	TABLES_COUNT="${#TABLES[@]}"
 	let "TABLES_COUNT-=1"
-	echo -e "\t${bold}${magenta}$TABLES_COUNT${yellow}) ${cyan}$TABLE${reset}"
+	if ! [[ $DB_SELECT ]]; then
+		echo -e "\t${bold}${magenta}$TABLES_COUNT${yellow}) ${cyan}$TABLE${reset}"
+	fi
 done
 
-echo -en "${bold}${yellow}Which table would you like to update (0-$TABLES_COUNT)?  ${reset}"
+if ! [[ $DB_SELECT ]]; then
+	echo -en "${bold}${yellow}Which table would you like to update (0-$TABLES_COUNT)?  ${reset}"
+	read DB_SELECT
 
-read DB_SELECT
-
-while ! [[ $DB_SELECT =~ ^[0-9]+$ ]] || [[ $DB_SELECT < 0 ]] || [[ $DB_SELECT > $TABLES_COUNT ]]; do
-        echo -n "${bold}${yellow}Invalid option selected.  Which table would you like to update (0-$TABLES_COUNT)? ${reset}"
-        read DB_SELECT
-done
+	while ! [[ $DB_SELECT =~ ^[0-9]+$ ]] || [[ $DB_SELECT < 0 ]] || [[ $DB_SELECT > $TABLES_COUNT ]]; do
+	        echo -n "${bold}${yellow}Invalid option selected.  Which table would you like to update (0-$TABLES_COUNT)? ${reset}"
+	        read DB_SELECT
+	done
+fi
 
 DB_TABLE="${TABLES[$DB_SELECT]}"
 
-echo -en "\n${bold}${yellow}You have chosen $DB_TABLE, is this correct (Y/N)? ${reset}"
-read YN
-while ! [[ $YN = @(Y|y|N|n) ]]; do
-        echo -en "${bold}${yellow}Please enter ONLY Y or N: ${reset}"
-        read YN
-done
-
+if ! [[ $INTERACTIVE = 0 ]]; then
+	echo -en "\n${bold}${yellow}You have chosen ${cyan}$DB_TABLE${yellow}, is this correct (Y/N)? ${reset}"
+	read YN
+	while ! [[ $YN = @(Y|y|N|n) ]]; do
+	        echo -en "${bold}${yellow}Please enter ONLY Y or N: ${reset}"
+	        read YN
+	done
+fi
 
 CSV=$( cat softres.csv | tail -n+2 | sed -e "s/'//g" -e 's/ //g' )
 
@@ -59,8 +74,6 @@ echo "                         __/ |                ${blue}By Bearijuana${red}"
 echo "                        |___/${reset}"
 echo -e "\n${bold}${yellow}Date: ${cyan}$DATE${reset}"
 
-INCREMENT="$1"
-
 if ! [[ $INCREMENT ]]; then
 	echo -n "${bold}${yellow}Increment rolls by how many? ${reset}"
 	read INCREMENT
@@ -73,13 +86,16 @@ done
 
 echo -e "\n"
 
-# Print current standings
+# Print current standings if interactive
 
-CURRENT_STANDINGS=$( mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -e "SELECT Username,ItemName,ItemID,Bonus,LastAttended FROM $DB_TABLE;" 2> /dev/null )
+if ! [[ $INTERACTIVE = "0" ]]; then
 
-if [[ $CURRENT_STANDINGS ]]; then
-	echo -e "${bold}${yellow}CURRENT STANDINGS:\n${reset}"
-	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -e "SELECT Username,ItemName,ItemID,Bonus,LastAttended FROM $DB_TABLE;" 2> /dev/null
+	CURRENT_STANDINGS=$( mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -e "SELECT Username,ItemName,ItemID,Bonus,LastAttended FROM $DB_TABLE;" 2> /dev/null )
+
+	if [[ $CURRENT_STANDINGS ]]; then
+		echo -e "${bold}${yellow}CURRENT STANDINGS:\n${reset}"
+		mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -e "SELECT Username,ItemName,ItemID,Bonus,LastAttended FROM $DB_TABLE;" 2> /dev/null
+	fi
 fi
 
 # Print current raid group
@@ -92,7 +108,6 @@ for RESERVATION in $( echo "$CSV" | sed -e 's/ /-/g' ); do
 	WOW_USERNAME=$( echo $RESERVATION | sed -e 's/,/ /g' | awk '{print $4}' )
 	echo -e "${bold}${cyan}\t$WOW_USERNAME ${yellow}- ${magenta}$CURRENT_RES_NAME ${yellow}[${green}$CURRENT_RES_ID${yellow}]${reset}"
 done
-
 # Check for absence
 RAIDER_LIST=$( mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -ss -e "SELECT Username FROM $DB_TABLE;" 2> /dev/null )
 
@@ -169,22 +184,26 @@ if [[ ${ABSENT_RAIDER[@]} ]]; then
         done
 fi
 
-echo -en "${bold}${yellow}\nDo you want to write the new values to database server (Y/N)? ${reset}"
+if ! [[ $INTERACTIVE = 0 ]]; then
+	echo -en "${bold}${yellow}\nDo you want to write the new values to database server (Y/N)? ${reset}"
 
-read YN
-while ! [[ $YN = @(Y|y|N|n) ]]; do
-	echo "${bold}${yellow}Please enter ONLY Y or N: ${reset}"
 	read YN
-done
+	while ! [[ $YN = @(Y|y|N|n) ]]; do
+		echo "${bold}${yellow}Please enter ONLY Y or N: ${reset}"
+		read YN
+	done
+else
+	YN="Y"
+fi
 
 if [[ $YN = @(N|n) ]]; then
 	exit 0
 else
 
-	echo
+	echo -en "${bold}${yellow}\nAPPLYING UPDATES:\n\n${reset}"
 
 	for BONUS in "${BONUSES[@]}"; do
-		WOW_USERNAME=$( echo $BONUS | awk '{print $2}' )
+		WOW_USERNAME=$( echo $BONUS | awk '{print $1}' )
 		OLD_BONUS_QUERY="SELECT Bonus FROM $DB_TABLE WHERE Username = '$WOW_USERNAME' LIMIT 1;"
 	        OLD_BONUS=$( mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -ss <<< "$OLD_BONUS_QUERY" 2> /dev/null )
 		NEW_BONUS=$((OLD_BONUS+$INCREMENT))
@@ -197,11 +216,11 @@ else
 		fi
 	done
 	for CHANGE in "${NO_BONUS[@]}"; do
-		WOW_USERNAME=$( echo $CHANGE | awk '{print $2}' )
-		LAST_RES_NAME=$( echo $CHANGE | awk '{print $4}')
-		LAST_RES_ID=$( echo $CHANGE | awk '{print $6}' )
-		CURRENT_RES_NAME=$( echo $CHANGE | awk '{print $9}' )
-		CURRENT_RES_ID=$( echo $CHANGE | awk '{print $11}' )
+		WOW_USERNAME=$( echo $CHANGE | awk '{print $1}' )
+		LAST_RES_NAME=$( echo $CHANGE | awk '{print $3}')
+		LAST_RES_ID=$( echo $CHANGE | awk '{print $5}' )
+		CURRENT_RES_NAME=$( echo $CHANGE | awk '{print $8}' )
+		CURRENT_RES_ID=$( echo $CHANGE | awk '{print $10}' )
 		echo -en "\t${bold}${cyan}$WOW_USERNAME${yellow} - Updating item reservation ${blue}$LAST_RES_NAME ${yellow}[${green}$LAST_RES_ID${yellow}] -> ${magenta}$CURRENT_RES_NAME ${yellow}[${green}$CURRENT_RES_ID${yellow}].. ${reset}"
 		mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -ss -e "UPDATE $DB_TABLE SET ItemName = '$CURRENT_RES_NAME', ItemID = '$CURRENT_RES_ID', Bonus = '0' WHERE Username = '$WOW_USERNAME'" 2> /dev/null
 		if [[ $? = 0 ]]; then
@@ -213,7 +232,7 @@ else
 
 	if [[ ${ABSENT_RAIDER[*]} ]]; then
 		for ABSENCE in "${ABSENT_RAIDER[@]}"; do
-			WOW_USERNAME=$( echo -e "$ABSENCE" | awk '{print $2}' )
+			WOW_USERNAME=$( echo -e "$ABSENCE" | awk '{print $1}' )
 			OLD_BONUS_QUERY="SELECT Bonus FROM $DB_TABLE WHERE Username = '$WOW_USERNAME' LIMIT 1;"
 	                OLD_BONUS=$( mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -ss <<< "$OLD_BONUS_QUERY" 2> /dev/null )
 			((NEW_BONUS=OLD_BONUS-$INCREMENT))
@@ -252,12 +271,16 @@ else
 	fi
 fi
 
-# Print updated data
+# Print updated data if interactive
 
-echo -e "\n${bold}${yellow}NEW STANDINGS:\n${reset}"
+if ! [[ $INTERACTIVE = 0 ]]; then
 
-mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -e "SELECT Username,ItemName,ItemID,Bonus,LastAttended FROM $DB_TABLE;" 2> /dev/null
+	echo -e "\n${bold}${yellow}NEW STANDINGS:\n${reset}"
 
-echo
+	mysql -u $DB_USER -p$DB_PASS -h $DB_HOST -P $DB_PORT -D $DATABASE -e "SELECT Username,ItemName,ItemID,Bonus,LastAttended FROM $DB_TABLE;" 2> /dev/null
+
+	echo
+
+fi
 
 exit 0
