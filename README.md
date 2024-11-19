@@ -9,20 +9,6 @@ So on, and so forth.
 
 (You can change the number of points incremented for each run)
 
-## Usage
-
-This is assuming you have already setup a SQL server.
-
-1. Ensure MySQL is installed on the machine that will be running the script.
-2. Fill out the MySQL credentials in credentials.conf.
-3. Ensure that the script is executable (chmod +x softres.sh).
-4. Export your soft-reserve list from https://softres.it ![image](https://github.com/user-attachments/assets/7c7c38e1-8e52-4ee2-b583-d43fffeb4684)
-5. Download the CSV file to the same directory as this script, and name it "softres.csv".  Please note, this file will be deleted when the script finishes running to prevent it from accidentally being used again.
-6. Run the script (./softres.sh).
-7. Select a database table from the list when prompted, and confirm your choice.  You should have created a separate table for each raid/group that you are tracking.
-8. You will now be prompted to select the number of bonus points that should be added for returning raiders.  Enter your choice, and press enter.
-9. The script will take over from here, updating the database as well as printing any changes to the terminal window.
-
 ### Notes
 
 - If you miss a raid, your bonus points will be decreased by the chosen increment value (You will lose the same amount of points you could have gained from attending the raid).  
@@ -31,7 +17,30 @@ This is assuming you have already setup a SQL server.
 
 ![image](https://github.com/user-attachments/assets/2d66f2b0-013b-4e4d-8c7c-a5387a256300)
 
+### Technical
+
+This project started as a Bash script and SQL database.  I have modified it to be useable via the web using PHP, but I am a beginner at PHP and was thrown together rather quickly as a functional proof of concept.  It is not perfect by any means.
+
+What this does:
+
+1. Creates a CSV file based using the CSV data that exported from softres.it and pasted into the softres utility.
+2. Selects database table.
+3. Finds and prints a list of:
+     1. Returning raiders maintaining the same soft reservation
+     2. Returning raiders changing their soft reservation
+     3. Absent raiders
+     4. New raiders
+4. Adds bonus points for returning raiders that ARE maintaining the same soft reservation.
+5. Updates reserved items for returning raiders ARE NOT maintaining the same soft reservation, and sets their bonus to 0.
+6. Removes bonus points for raiders who were not present.
+7. Adds new raiders to the database with 0 bonus points.
+
 ### Planned Enhancements
 
-- [ ] Create web UI to allow uploading CSV from softres.it instead of having to manually modify the file
+- [x] Create web UI to allow uploading CSV from softres.it instead of having to manually modify the file
 - [ ] Create public standing board
+- [x] Add logging functionality
+- [ ] Allow table switching from web UI
+- [ ] Allow table creation from web UI
+- [ ] Add user management/login system
+- [ ] Add Discord notifications via webhook
