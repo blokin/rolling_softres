@@ -15,8 +15,6 @@ So on, and so forth.
 - If you change the item you have soft-reserved, you forfeit your bonus points and start at 0.
 - If you are already at 0 points, you will not have points deducted for absence.
 
-![image](https://github.com/user-attachments/assets/2d66f2b0-013b-4e4d-8c7c-a5387a256300)
-
 ### Technical
 
 This project started as a Bash script and SQL database.  I have modified it to be useable via the web using PHP, but I am a beginner at PHP and was thrown together rather quickly as a functional proof of concept.  It is not perfect by any means.
