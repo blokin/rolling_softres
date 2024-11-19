@@ -7,6 +7,10 @@ Your second raid, you will have 5 bonus points.
 Your third raid, you will have 10 bonus points.
 So on, and so forth.
 
+If you do not attend a raid, you will lose 5 points.
+If you change your soft reservation, you will have 0 points.  Changing your soft reservation sets your points to 0 and is a permanent change.  You can not switch back to an item you previously had points for and recover those points.
+
+
 (You can change the number of points incremented for each run)
 
 ### Notes
