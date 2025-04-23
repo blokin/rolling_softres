@@ -21,21 +21,7 @@ If you change your soft reservation, you will have 0 points.  Changing your soft
 
 ### Technical
 
-This project started as a Bash script and SQL database.  I have modified it to be useable via the web using PHP, but I haven't had time to make it look nice.
-
-What this does:
-
-1. Creates a CSV file based using the CSV data that exported from softres.it and pasted into the softres utility.
-2. Selects database table.
-3. Finds and prints a list of:
-     1. Returning raiders maintaining the same soft reservation
-     2. Returning raiders changing their soft reservation
-     3. Absent raiders
-     4. New raiders
-4. Adds bonus points for returning raiders that ARE maintaining the same soft reservation.
-5. Updates reserved items for returning raiders ARE NOT maintaining the same soft reservation, and sets their bonus to 0.
-6. Removes bonus points for raiders who were not present.
-7. Adds new raiders to the database with 0 bonus points.
+This project started as a Bash script and SQL database.  I have modified it to be useable via the web using PHP, but I haven't had time to make it look nice.  Currently, I am calling the bash script with PHP but plan to re-write it all in PHP eventually.
 
 ### Planned Enhancements
 
