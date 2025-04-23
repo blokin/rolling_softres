@@ -5,7 +5,7 @@
   </head>
   <body>
     <center>
-      <table width=1250>
+      <table width=1000>
         <tr>
           <td>
 <pre>______      _ _ _               _____        __ _  ______
@@ -14,18 +14,23 @@
 |    // _ \| | | | '_ \ / _` |  `--. \/ _ \|  _| __|    // _ \/ __|
 | |\ \ (_) | | | | | | | (_| | /\__/ / (_) | | | |_| |\ \  __/\__ \
 |_| \_\___/|_|_|_|_| |_|\__, | \____/ \___/|_|  \__\_| \_\___||___/
-                         __/ |        By <a href="https://youtu.be/Qm9bUYVx8aI" target="new">High-Warlord Bearijuana</a>
+                         __/ |                By Bearijuana
                         |___/</pre>
+          </td>
+          <td align="right">
+            <form method="POST" action="index.php?id=admin">
+              User <input type="text" name="user"></input><br/>
+              Pass <input type="password" name="pass"></input><br/>
+              <input type="submit" name="submit" value="Go"></input>
+            </form>
           </td>
         </tr>
         <tr>
           <td colspan=2>
-            <table class=content width=100%>
+            <table width=100%>
               <tr>
-                <td>
-                  <h4 class="nav_header">Navigation</h4>
-                    <a href="index.php">Rules</a><br>
-                  <h4 class="nav_header">Current Bonuses</h4>
+                <td valign=top style="width: 200px; border-right: 1px solid black;">
+                  <h4>Current Bonuses</h4>
                     <?php
                       $output = shell_exec("/bin/bash softres.sh list-tables");
                       $noquotes = str_replace("\"", "", $output);
@@ -34,7 +39,7 @@
                         echo "<a href=index.php?id=bonus&bonus_table=$v>$v</a><br>";
                       }
                     ?>
-                  <h4 class="nav_header">Logs</h4>
+                  <h4>Logs</h4>
                   <?php
                    $output = shell_exec("/bin/bash softres.sh list-logs");
                    $arr =  explode(",", $output);
@@ -47,16 +52,9 @@
                      }
                      echo "</ul>";
                    }
-                  ?>
-                  <h4 class="nav_header">Admin Login</h4>
-                    <form method="POST" action="index.php?id=admin">
-                      <input type="text" name="user" value="Username"></input><br/>
-                      <input type="password" name="pass" value="Password"></input><br/>
-                      <input type="submit" name="submit" value="Log In"></input>
-                    </form>
-
+                 ?>
                 </td>
-                <td>
+                <td valign=top>
                   <?php
                     $id = $_GET['id'];
                       switch($id) {
