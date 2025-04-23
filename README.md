@@ -39,7 +39,8 @@ What this does:
 
 ### Planned Enhancements
 
-- [x] Create web UI to allow uploading CSV from softres.it instead of having to manually modify the file
+- [x] ~Create web UI to allow uploading CSV from softres.it instead of having to manually modify the file~\
+          - This is now using the softres.it API to directly pull the information from the site instead of requiring you to export as CSV
 - [x] Create public standing board
 - [x] Add logging functionality
 - [x] Allow table switching from web UI
