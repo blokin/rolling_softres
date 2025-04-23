@@ -1,0 +1,63 @@
+/* Remove default bullets */
+body {
+  background-color: #606060;
+  font-family: sans-serif;
+}
+
+p{
+  text-indent:1em;
+}
+
+li p {
+  text-indent: 0em;
+}
+
+table td {
+  vertical-align: text-top
+}
+
+.content td {
+  border: 1px solid black;
+}
+
+td {
+  background-color: #c0c0c0;
+}
+
+td h4 {
+  text-align: center;
+}
+
+a:link {
+  color: green;
+}
+
+/* visited link */
+a:visited {
+  color: green;
+}
+
+/* mouse over link */
+a:hover {
+  color: black;
+}
+
+/* selected link */
+a:active {
+  color: white;
+}
+
+.nested {
+  list-style-type: none;
+  margin: 0;
+  padding-left: 1em;
+}
+
+.nested li a {
+  font-size: 12;
+}
+
+.navheader {
+}
+
+
