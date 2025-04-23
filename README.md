@@ -21,7 +21,7 @@ If you change your soft reservation, you will have 0 points.  Changing your soft
 
 ### Technical
 
-This project started as a Bash script and SQL database.  I have modified it to be useable via the web using PHP, but I am a beginner at PHP and was thrown together rather quickly as a functional proof of concept.  It is not perfect by any means.
+This project started as a Bash script and SQL database.  I have modified it to be useable via the web using PHP, but I haven't had time to make it look nice.
 
 What this does:
 
@@ -40,9 +40,9 @@ What this does:
 ### Planned Enhancements
 
 - [x] Create web UI to allow uploading CSV from softres.it instead of having to manually modify the file
-- [ ] Create public standing board
+- [x] Create public standing board
 - [x] Add logging functionality
-- [ ] Allow table switching from web UI
-- [ ] Allow table creation from web UI
+- [x] Allow table switching from web UI
+- [x] Allow table creation from web UI
 - [ ] Add user management/login system
 - [ ] Add Discord notifications via webhook
