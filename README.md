@@ -33,3 +33,5 @@ This project started as a Bash script and SQL database.  I have modified it to b
 - [x] Allow table creation from web UI
 - [ ] Add user management/login system
 - [ ] Add Discord notifications via webhook
+- [ ] Re-write bash script in php
+- [ ] Make the UI not ugly
