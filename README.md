@@ -1,27 +1,22 @@
 # Rolling SoftRes
 
-This project was created to give World of Warcraft raid leaders an easy way to maintain a rolling soft reserve loot system.  The rolling soft reserve system works by adding bonus points to your rolls for each raid you attend and place a soft-reserve on the same item.  This script currently requires a MySQL database with a separate table per raid/group.
+This project was created to give World of Warcraft raid leaders an easy way to maintain a rolling soft reserve loot system.    
 
-Your first raid, you will have 0 bonus points.
-Your second raid, you will have 5 bonus points.
-Your third raid, you will have 10 bonus points.
-So on, and so forth.
+### What is "Rolling Soft Reserve"?
 
-If you do not attend a raid, you will lose 5 points.
-If you change your soft reservation, you will have 0 points.  Changing your soft reservation sets your points to 0 and is a permanent change.  You can not switch back to an item you previously had points for and recover those points.
+SoftRes is short for "soft reservation".  This loot system allows raiders to select an item (or sometimes two) from the raid to reserve.  If that item drops and only one raider has the it reserved, it goes to them.  If more than one raider has it reserved, they use /roll within the game and whoever rolls higher gets the item.
 
+To incentivize raiders to continue raiding with our group, we are implementing a "rolling soft reserve" system.  What this means is that for each consecutive week a raider reserves the same item, they will receive bonus points which will be added on to their /roll.  For example, Raider A is on week 5 of reserving the same item, and the rolling soft res system is configured to increment by 5 points per week.  Raider B is new and is on his first week reserving that item.  The item drops.  Raider A rolls a 56, and Raider B rolls a 74.  Typically Raider B would take the item.  With the rolling soft res bonus points however, Raider A will get +25 to his roll for a total of 81, and Raider A will take the item.
 
-(You can change the number of points incremented for each run)
+Likewise, if a raider does not attend a raid, they will lose an equal number of bonus points.  
 
-### Notes
-
-- If you miss a raid, your bonus points will be decreased by the chosen increment value (You will lose the same amount of points you could have gained from attending the raid).  
-- If you change the item you have soft-reserved, you forfeit your bonus points and start at 0.
-- If you are already at 0 points, you will not have points deducted for absence.
+If a raider changes their reservation, their points will be forfeit and reset to 0, which is a permanent change.
 
 ### Technical
 
-This project started as a Bash script and SQL database.  I have modified it to be useable via the web using PHP, but I haven't had time to make it look nice.  Currently, I am calling the bash script with PHP but plan to re-write it all in PHP eventually.
+This project started as a Bash script writing to a MySQL database.  I have modified it to be usable via the web using PHP, but there's still work that needs to be done.  It is now capable of handling multiple MySQL tables for tracking separate raid groups.  Tables can be created/destroyed using the admin page.
+
+When a table is "destroyed", it renames to be in a "recycle bin" and is no longer displayed on the site.  This is to prevent accidents from causing data loss as well as to safeguard against anyone with malicious intent destroying data.  I will eventually add a recycle bin cleanup function once I make the admin panel more secure.
 
 ### Planned Enhancements
 
@@ -33,5 +28,7 @@ This project started as a Bash script and SQL database.  I have modified it to b
 - [x] Allow table creation from web UI
 - [ ] Add user management/login system
 - [ ] Add Discord notifications via webhook
-- [ ] Re-write bash script in php
+- [ ] Re-write bash script in php for better portability
 - [ ] Make the UI not ugly
+- [ ] Add recycle bin cleanup
+- [ ] Add support for 1x or 2x soft res (currently only supporting 2x)
