@@ -28,6 +28,7 @@ When a table is "destroyed", it renames to be in a "recycle bin" and is no longe
 - [x] Add logging functionality
 - [x] Allow table switching from web UI
 - [x] Allow table creation from web UI
+- [x] Check ItemIDs obtained from the http://www.softres.it API against the http://www.wowhead.com API to obtain item names
 - [ ] Add user management/login system
 - [ ] Add Discord notifications via webhook
 - [ ] Re-write bash script in php for better portability
