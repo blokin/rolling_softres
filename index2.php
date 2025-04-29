@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Rolling SoftRes - By Bearijuana</title>
+    <title>Rolling SoftRes - By Blokin</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
@@ -14,7 +14,7 @@
 |    // _ \| | | | '_ \ / _` |  `--. \/ _ \|  _| __|    // _ \/ __|
 | |\ \ (_) | | | | | | | (_| | /\__/ / (_) | | | |_| |\ \  __/\__ \
 |_| \_\___/|_|_|_|_| |_|\__, | \____/ \___/|_|  \__\_| \_\___||___/
-                         __/ |                By Bearijuana
+                         __/ |                By Blokin
                         |___/</pre>
           </td>
           <td align="right">
