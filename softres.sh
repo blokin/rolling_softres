@@ -13,8 +13,8 @@ blue="$(tput setaf 4)"
 source credentials.ini
 
 function getItemName {
-	accessToken=$( curl -su $clientID:$clientSecret -d grant_type=client_credentials https://oauth.battle.net/token | jq '.access_token' | sed -e 's/\"//g' )
- 	curl -s -H "Authorization: Bearer $accessToken" "https://us.api.blizzard.com/data/wow/item/$1?namespace=static-classic-us&locale=en_US" | jq '.name' | sed -e 's/\"//g' -e 's/,//g' -e 's/ /-/g'
+	ACCESS_TOKEN=$( curl -su $CLIENT_ID:$CLIENT_SECRET -d grant_type=client_credentials https://oauth.battle.net/token | jq '.access_token' | sed -e 's/\"//g' )
+ 	curl -s -H "Authorization: Bearer $ACCESS_TOKEN" "https://us.api.blizzard.com/data/wow/item/$1?namespace=static-classic-us&locale=en_US" | jq '.name' | sed -e 's/\"//g' -e 's/,//g' -e 's/ /-/g'
 }
 
 if [[ $1 = "list-tables" ]]; then
