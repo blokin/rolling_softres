@@ -4,11 +4,11 @@ This project was created to give World of Warcraft raid leaders an easy way to m
 
 ### What is "Rolling Soft Reserve"?
 
-SoftRes is short for "soft reservation".  This loot system allows raiders to select an item (or sometimes two) from the raid to reserve.  If that item drops and only one raider has the it reserved, it goes to them.  If more than one raider has it reserved, they use /roll within the game and whoever rolls higher gets the item.
+SoftRes is short for "soft reservation".  This loot system allows raiders to select an item (or sometimes two) from the raid to reserve.  If that item drops and only one raider has the it reserved, that raider will receive the item.  If more than one raider has it reserved, they use /roll within the game and whoever rolls higher will receive the item.
 
 Soft reserve sheets can be created at http://www.softres.it
 
-To incentivize raiders to continue raiding with our group, we are implementing a "rolling soft reserve" system.  What this means is that for each consecutive week a raider reserves the same item, they will receive bonus points which will be added on to their /roll.  For example, Raider A is on week 5 of reserving the same item, and the rolling soft res system is configured to increment by 5 points per week.  Raider B is new and is on his first week reserving that item.  The item drops.  Raider A rolls a 56, and Raider B rolls a 74.  Typically Raider B would take the item.  With the rolling soft res bonus points however, Raider A will get +25 to his roll for a total of 81, and Raider A will take the item.
+To incentivize raiders to continue raiding with our group, we are implementing a "rolling soft reserve" system.  What this means is that for each consecutive week a raider reserves the same item, they will be awarded bonus points which will be added on to their /roll.  For example, Raider A is on week 5 of reserving the same item, and the rolling soft res system is configured to increment by 5 points per week.  Raider B is new and is on his first week reserving that item.  The item drops.  Raider A rolls a 56, and Raider B rolls a 74.  Typically Raider B would receive the item.  With the rolling soft res bonus points however, Raider A will get +25 added to his roll for a total of 81, and Raider A will receive the item.
 
 Likewise, if a raider does not attend a raid, they will lose an equal number of bonus points.  
 
