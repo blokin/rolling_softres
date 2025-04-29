@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Rolling SoftRes - By Bearijuana</title>
+    <title>Rolling SoftRes - By Blokin</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
