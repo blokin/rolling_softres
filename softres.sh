@@ -13,7 +13,7 @@ blue="$(tput setaf 4)"
 source credentials.ini
 
 function getItemName {
-	curl -s "https://www.wowhead.com/classic/item=$1&xml" | grep -o "<name>.*</name>" | sed -e 's/<name><!\[CDATA\[//' -e 's/]]><\/name>//' | sed -e 's/ - /-/' -e 's/ /-/g' -e "s/'//g" | awk '{print $1}'
+	curl -s "https://www.wowhead.com/classic/item=$1&xml" | grep -o "<name>.*</name>" | sed -e 's/<name><!\[CDATA\[//' -e 's/]]><\/name>//' -e 's/ - /-/' -e 's/ /-/g' -e "s/'//g" | awk '{print $1}'
 }
 
 if [[ $1 = "list-tables" ]]; then
