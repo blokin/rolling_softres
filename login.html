@@ -1,6 +1,19 @@
-<h4>Admin Login</h4>
-	<form method="POST" action="index.php?id=admin">
-		User <input type="text" name="user"></input><br/>
-		Pass <input type="password" name="pass"></input><br/>
-		<input type="submit" name="submit" value="Go"></input>
-	</form>
+<section>
+  <h4>Admin Login</h4>
+    <form method="POST" action="admin-auth.php">
+      <table id="login">
+        <tr>
+          <td>User</td>
+          <td><input type="text" size="20" name="user"></input></td>
+        </tr>
+        <tr>
+          <td>Pass</td>
+          <td><input type="password" name="pass"></input></td>
+        </tr>
+        <tr>
+          <td> </td>
+          <td><input type="submit" name="submit" value="Go"></input></td>
+        </tr>
+      </table>
+    </form>
+</section>

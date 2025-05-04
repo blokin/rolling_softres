@@ -1,65 +1,69 @@
+<section>
   <h3>Add new soft res data:</h3>
   <center>
-    <form action="index.php?id=softres" method="POST">
+    <form action="index.php?id=softres" method="POST" id="softres-form">
       Select a table:
-      <select name="DB_TABLE">
+      <select name="DB_TABLE" required>
         <option value=""> </option>
-        <?php
-          $output = shell_exec("/bin/bash softres.sh list-tables");
-          $noquotes = str_replace("\"", "", $output);
-          $arr =  explode(",", $noquotes);
-          foreach($arr as $v){
-            echo "<option value=" . $v . ">" . "$v" . "</option>";
-          }
-        ?>
+        <?php include 'table-select.php'; ?>
       </select><br><br>
-      http://www.softres.it/raid/<input name="URL">
-      <input type="submit">
+      http://www.softres.it/raid/<input name="URL" required>
+      Bonus increment: <input name="INCREMENT" value="2" size="2" type="number" min="1" required>
+      <input type="submit" value="Apply">
     </form>
-  <hr>
+    <div id="loader" style="display:none; text-align:center; margin-top:20px; font-size:1.2em;">
+      <span class="spinner">⏳</span>Loading, please wait...
+    </div>
   </center>
+</section>
+
+<section>
   <h3>Create a new table:</h3>
   <center>
     <form action="index.php?id=softres" method="POST">
-      Enter new table name:  <input type=text name=NEW_TABLE>
-      <input type=submit>
+      Enter new table name: <input type="text" name="NEW_TABLE" required>
+      <input type="submit" value="Create">
     </form>
-    <hr>
   </center>
+</section>
+
+<section>
   <h3>Delete a TABLE:</h3>
   <center>
     <form action="index.php?id=softres" method="POST">
       Select a table:
-      <select name="DELETE_TABLE">
+      <select name="DELETE_TABLE" required>
         <option value=""> </option>
-        <?php
-          $output = shell_exec("/bin/bash softres.sh list-tables");
-          $noquotes = str_replace("\"", "", $output);
-          $arr =  explode(",", $noquotes);
-          foreach($arr as $v){
-            echo "<option value=" . $v . ">" . "$v" . "</option>";
-          }
-        ?>
+        <?php include 'table-select.php'; ?>
       </select><br><br>
-      <input type=submit>
+      <input type="submit" value="Delete Table">
     </form>
-    <hr>
   </center>
+</section>
+
+<section>
   <h3>Delete a User:</h3>
   <center>
     <form action="index.php?id=softres" method="POST">
       Select a table:
-      <select name="DELETE_USER_TABLE">
+      <select name="DELETE_USER_TABLE" required>
         <option value=""> </option>
-        <?php
-          $output = shell_exec("/bin/bash softres.sh list-tables");
-          $noquotes = str_replace("\"", "", $output);
-          $arr =  explode(",", $noquotes);
-          foreach($arr as $v){
-            echo "<option value=" . $v . ">" . "$v" . "</option>";
-          }
-        ?>
+        <?php include 'table-select.php'; ?>
       </select><br><br>
-      <input type=submit>
+      Enter username: <input type="text" name="DELETE_USER" required>
+      <input type="submit" value="Delete User">
     </form>
   </center>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('softres-form');
+    const loader = document.getElementById('loader');
+    if (form && loader) {
+      form.addEventListener('submit', function () {
+        loader.style.display = 'block';
+      });
+    }
+  });
+</script>
