@@ -36,3 +36,4 @@ When a table is "destroyed", it renames to be in a "recycle bin" and is no longe
 - [ ] Add recycle bin cleanup
 - [x] Add support for 1x or 2x soft res (currently only supporting 2x)
 - [x] Modify to use Blizzard's game data API (https://develop.battle.net/documentation/world-of-warcraft-classic/game-data-apis) instead of WoWhead.
+- [ ] Change some hardlinks to my domain to be portable
