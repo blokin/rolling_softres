@@ -29,10 +29,10 @@ When a table is "destroyed", it renames to be in a "recycle bin" and is no longe
 - [x] Allow table switching from web UI
 - [x] Allow table creation from web UI
 - [x] Check ItemIDs obtained from the http://www.softres.it API against the http://www.wowhead.com API to obtain item names
-- [ ] Add user management/login system
+- [x] Add user management/login system
 - [ ] Add Discord notifications via webhook
-- [ ] Re-write bash script in php for better portability
-- [ ] Make the UI not ugly
+- [x] Re-write bash script in php for better portability
+- [x] Make the UI not ugly
 - [ ] Add recycle bin cleanup
-- [ ] Add support for 1x or 2x soft res (currently only supporting 2x)
+- [x] Add support for 1x or 2x soft res (currently only supporting 2x)
 - [x] Modify to use Blizzard's game data API (https://develop.battle.net/documentation/world-of-warcraft-classic/game-data-apis) instead of WoWhead.
